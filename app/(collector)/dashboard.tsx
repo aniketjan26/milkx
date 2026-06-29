@@ -172,7 +172,7 @@ export default function Dashboard() {
                     const day = new Date(d.date).toLocaleDateString('en-IN', { weekday: 'short' });
                     return (
                       <View key={d.date} style={s.weekBar}>
-                        <View style={[s.barFill, { height: Math.max(pct * 60, d.liters > 0 ? 4 : 0) }]} />
+                        <View style={[s.barFill, { height: Math.max(pct * 70, d.liters > 0 ? 4 : 0) }]} />
                         <Text style={s.barDay}>{day}</Text>
                         {d.liters > 0 && <Text style={s.barVal}>{d.liters}L</Text>}
                       </View>
@@ -232,7 +232,7 @@ const s = StyleSheet.create({
   entryL: { fontFamily: Typography.fontFamily.semibold, fontSize: Typography.size.base, color: Colors.sky.blue },
   entryAmt: { fontFamily: Typography.fontFamily.regular, fontSize: Typography.size.sm, color: Colors.neutral.gray },
   check: { width: 28, height: 28, borderRadius: 14, backgroundColor: Colors.semantic.success + '20', alignItems: 'center', justifyContent: 'center' },
-  weekRow: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', backgroundColor: '#fff', borderRadius: BorderRadius.lg, padding: Spacing.base, ...Shadows.card, height: 100 },
+  weekRow: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', backgroundColor: '#fff', borderRadius: BorderRadius.lg, padding: Spacing.base, ...Shadows.card, height: 130, overflow: 'hidden' },
   weekBar: { flex: 1, alignItems: 'center', justifyContent: 'flex-end' },
   barFill: { width: 20, backgroundColor: Colors.primary.green, borderRadius: 4, marginBottom: 4 },
   barDay: { fontFamily: Typography.fontFamily.regular, fontSize: 9, color: Colors.neutral.gray },

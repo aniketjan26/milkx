@@ -18,7 +18,7 @@ export default function FarmerProfile() {
       <View style={{ padding: Spacing.xl }}>
         <TouchableOpacity
           style={{ backgroundColor: Colors.semantic.error + '15', borderRadius: BorderRadius.full, padding: Spacing.base, alignItems: 'center', marginTop: Spacing.md }}
-          onPress={() => Alert.alert('Logout', 'Sure?', [{ text: 'Cancel', style: 'cancel' }, { text: 'Logout', style: 'destructive', onPress: async () => { await logout(); router.replace('/(auth)/language' as any); } }])}
+          onPress={() => Alert.alert('Logout', 'Sure?', [{ text: 'Cancel', style: 'cancel' }, { text: 'Logout', style: 'destructive', onPress: async () => { await logout(); router.replace('/'); } }])}
         >
           <Text style={{ fontFamily: Typography.fontFamily.semibold, color: Colors.semantic.error }}>Logout</Text>
         </TouchableOpacity>

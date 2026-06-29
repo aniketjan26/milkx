@@ -30,8 +30,8 @@ export async function addFarmer(data: {
   upiId?: string; panCard?: string;
 }) {
   const now = new Date().toISOString();
-  const existing = await db.select().from(farmers).where(eq(farmers.collectorId, data.collectorId));
-  const farmerNum = existing.length + 1;
+  const allFarmers = await db.select({ id: farmers.id }).from(farmers);
+  const farmerNum = allFarmers.length + 1;
   const farmerId = `FAR${String(farmerNum).padStart(3, '0')}`;
 
   await db.insert(farmers).values({

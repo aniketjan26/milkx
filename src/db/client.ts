@@ -36,4 +36,13 @@ export async function runMigrations() {
     CREATE INDEX IF NOT EXISTS idx_milk_date ON milk_entries(date);
     CREATE INDEX IF NOT EXISTS idx_farmer_collector ON farmers(collector_id);
   `);
+
+  // Add new columns to existing installs (ALTER TABLE ignores if column already exists via try-catch)
+  const alterStatements = [
+    'ALTER TABLE farmers ADD COLUMN bank_name TEXT',
+    'ALTER TABLE farmers ADD COLUMN pan_card TEXT',
+  ];
+  for (const stmt of alterStatements) {
+    try { await sqlite.execAsync(stmt); } catch {}
+  }
 }

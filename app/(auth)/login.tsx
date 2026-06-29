@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +16,7 @@ export default function LoginScreen() {
   const [phone, setPhone] = useState('');
   const [passcode, setPasscode] = useState('');
   const [loading, setLoading] = useState(false);
+  const passcodeRef = useRef<any>(null);
 
   async function handlePasscodeLogin() {
     if (phone.length !== 10) { Alert.alert('Invalid', 'Enter your 10-digit registered mobile number'); return; }
@@ -85,10 +86,11 @@ export default function LoginScreen() {
 
               {/* Passcode */}
               <Text style={[s.label, { marginTop: Spacing.xl }]}>4-Digit Passcode</Text>
-              <View style={s.dots}>
+              <TouchableOpacity activeOpacity={1} onPress={() => passcodeRef.current?.focus()} style={s.dots}>
                 {[0,1,2,3].map(i => <View key={i} style={[s.dot, passcode.length > i && s.dotFilled]} />)}
-              </View>
+              </TouchableOpacity>
               <TextInput
+                ref={passcodeRef}
                 value={passcode} onChangeText={v => { if (/^\d*$/.test(v) && v.length <= 4) setPasscode(v); }}
                 keyboardType="numeric" maxLength={4} secureTextEntry style={s.hidden}
                 onSubmitEditing={handlePasscodeLogin}

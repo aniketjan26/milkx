@@ -1,22 +1,34 @@
 import { Tabs } from 'expo-router';
 import { View, Text, StyleSheet, Platform } from 'react-native';
-import { Colors, Typography, Spacing, BorderRadius } from '../../src/constants/theme';
+import { Colors, Typography } from '../../src/constants/theme';
 
 function TabIcon({ emoji, label, focused }: { emoji: string; label: string; focused: boolean }) {
   return (
-    <View style={[ti.wrap, focused && ti.wrapActive]}>
+    <View style={ti.wrap}>
       <Text style={[ti.emoji, focused && ti.emojiActive]}>{emoji}</Text>
-      {focused && <Text style={ti.label} numberOfLines={1}>{label}</Text>}
+      <Text style={[ti.label, focused && ti.labelActive]} numberOfLines={1}>{label}</Text>
+      <View style={[ti.dot, focused && ti.dotActive]} />
     </View>
   );
 }
 
 const ti = StyleSheet.create({
-  wrap: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, paddingVertical: 4, borderRadius: BorderRadius.lg, minWidth: 52 },
-  wrapActive: { backgroundColor: Colors.primary.lightGreen },
-  emoji: { fontSize: 20, opacity: 0.45 },
+  wrap: { alignItems: 'center', justifyContent: 'center', width: '100%' },
+  emoji: { fontSize: 22, opacity: 0.4 },
   emojiActive: { opacity: 1 },
-  label: { fontFamily: Typography.fontFamily.semibold, fontSize: 10, color: Colors.primary.green, marginTop: 2 },
+  label: {
+    fontFamily: Typography.fontFamily.medium,
+    fontSize: 11,
+    color: Colors.neutral.gray,
+    marginTop: 3,
+    textAlign: 'center',
+  },
+  labelActive: {
+    color: Colors.primary.green,
+    fontFamily: Typography.fontFamily.semibold,
+  },
+  dot: { width: 4, height: 4, borderRadius: 2, backgroundColor: 'transparent', marginTop: 3 },
+  dotActive: { backgroundColor: Colors.primary.green },
 });
 
 export default function CollectorLayout() {
@@ -25,13 +37,14 @@ export default function CollectorLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarItemStyle: { paddingVertical: 0, paddingHorizontal: 0 },
         tabBarStyle: {
           backgroundColor: Colors.neutral.white,
           borderTopWidth: 1,
           borderTopColor: Colors.neutral.lightGray,
-          height: Platform.OS === 'ios' ? 82 : 68,
-          paddingBottom: Platform.OS === 'ios' ? 20 : 8,
-          paddingTop: 6,
+          height: Platform.OS === 'ios' ? 90 : 76,
+          paddingBottom: Platform.OS === 'ios' ? 24 : 10,
+          paddingTop: 8,
           elevation: 12,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: -2 },
@@ -80,18 +93,16 @@ export default function CollectorLayout() {
 
 const fab = StyleSheet.create({
   wrap: {
-    width: 54, height: 54, borderRadius: 27,
+    width: 52, height: 52, borderRadius: 26,
     backgroundColor: Colors.neutral.lightGray,
     alignItems: 'center', justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
     shadowColor: Colors.primary.green,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 6,
     elevation: 4,
   },
-  wrapActive: {
-    backgroundColor: Colors.primary.green,
-  },
+  wrapActive: { backgroundColor: Colors.primary.green },
   icon: { fontSize: 24 },
 });

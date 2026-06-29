@@ -12,7 +12,7 @@ function TabIcon({ emoji, label, focused }: { emoji: string; label: string; focu
 }
 
 const ti = StyleSheet.create({
-  wrap: { alignItems: 'center', justifyContent: 'center', paddingTop: 6, paddingHorizontal: 12, paddingBottom: 2, borderRadius: BorderRadius.lg },
+  wrap: { alignItems: 'center', justifyContent: 'center', paddingTop: 6, paddingHorizontal: 4, paddingBottom: 2, borderRadius: BorderRadius.lg },
   wrapActive: { },
   emoji: { fontSize: 20, opacity: 0.45 },
   emojiActive: { opacity: 1 },

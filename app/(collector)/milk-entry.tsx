@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../src/constants/theme';
 import { calculatePayment, validateMilkQuality, formatINR } from '../../src/utils/calculations';
 // import { getFarmersByCollector, addMilkEntry, addPayment } from '../../src/db/service';
@@ -27,7 +27,7 @@ export default function MilkEntry() {
   const collectorId = user?.collectorId ?? '';
   const today = new Date().toISOString().split('T')[0];
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     async function load() {
       if (!collectorId) return;
       const data = await getFarmersByCollector(collectorId);
@@ -37,7 +37,7 @@ export default function MilkEntry() {
       setLoadingFarmers(false);
     }
     load();
-  }, [collectorId]);
+  }, [collectorId]));
 
   // Detect morning/evening automatically
   useEffect(() => {

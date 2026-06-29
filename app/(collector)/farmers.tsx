@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextInput, Alert, Modal, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextInput, Alert, Modal, ActivityIndicator, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../src/constants/theme';
@@ -140,7 +140,7 @@ export default function FarmersScreen() {
               </TouchableOpacity>
             </View>
 
-            <View style={s.modalForm}>
+            <ScrollView style={{ flex: 1 }} contentContainerStyle={s.modalForm} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
               <Text style={s.sectionLabel}>Basic Info</Text>
               <View style={s.field}>
                 <Text style={s.label}>Full Name *</Text>
@@ -182,7 +182,8 @@ export default function FarmersScreen() {
               <View style={s.infoCard}>
                 <Text style={s.infoText}>ℹ️ Farmer ID will be auto-generated (e.g. FAR001)</Text>
               </View>
-            </View>
+              <View style={{ height: 40 }} />
+            </ScrollView>
           </KeyboardAvoidingView>
         </SafeAreaView>
       </Modal>

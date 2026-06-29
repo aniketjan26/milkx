@@ -80,7 +80,7 @@ export default function LoginScreen() {
                 <TextInput
                   style={[s.input, { flex: 1 }]} value={phone} onChangeText={setPhone}
                   placeholder="Registered mobile number" placeholderTextColor={Colors.neutral.midGray}
-                  keyboardType="phone-pad" maxLength={10} autoFocus
+                  keyboardType="phone-pad" maxLength={10}
                 />
               </View>
 

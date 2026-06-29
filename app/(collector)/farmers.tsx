@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextInput, Alert, Modal, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextInput, Alert, Modal, ActivityIndicator, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../src/constants/theme';
@@ -23,7 +23,12 @@ export default function FarmersScreen() {
   // Add farmer form state
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
-  const [newAddress, setNewAddress] = useState('');
+  const [newAadhar, setNewAadhar] = useState('');
+  const [newBankAccount, setNewBankAccount] = useState('');
+  const [newBankName, setNewBankName] = useState('');
+  const [newIfsc, setNewIfsc] = useState('');
+  const [newUpi, setNewUpi] = useState('');
+  const [newPan, setNewPan] = useState('');
   const [saving, setSaving] = useState(false);
 
   const collectorId = user?.collectorId ?? '';
@@ -43,12 +48,22 @@ export default function FarmersScreen() {
   async function handleAddFarmer() {
     if (!newName.trim()) { Alert.alert('Required', 'Enter farmer name'); return; }
     if (newPhone.length !== 10) { Alert.alert('Invalid', 'Enter valid 10-digit mobile number'); return; }
+    if (newAadhar.length !== 12) { Alert.alert('Invalid', 'Aadhaar must be 12 digits'); return; }
     setSaving(true);
     try {
-      await addFarmer({ name: newName, phone: newPhone, address: newAddress, collectorId });
+      await addFarmer({
+        name: newName, phone: newPhone, aadhar: newAadhar, collectorId,
+        bankAccount: newBankAccount || undefined,
+        bankName: newBankName || undefined,
+        ifsc: newIfsc || undefined,
+        upiId: newUpi || undefined,
+        panCard: newPan || undefined,
+      });
       await loadFarmers();
       setShowAdd(false);
-      setNewName(''); setNewPhone(''); setNewAddress('');
+      setNewName(''); setNewPhone(''); setNewAadhar('');
+      setNewBankAccount(''); setNewBankName(''); setNewIfsc('');
+      setNewUpi(''); setNewPan('');
       Alert.alert('Success', 'Farmer added successfully!');
     } catch (e: any) {
       Alert.alert('Error', e.message ?? 'Failed to add farmer');
@@ -125,7 +140,8 @@ export default function FarmersScreen() {
               </TouchableOpacity>
             </View>
 
-            <View style={s.modalForm}>
+            <ScrollView style={{ flex: 1 }} contentContainerStyle={s.modalForm} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+              <Text style={s.sectionLabel}>Basic Info</Text>
               <View style={s.field}>
                 <Text style={s.label}>Full Name *</Text>
                 <TextInput style={s.input} value={newName} onChangeText={setNewName} placeholder="e.g. Ramesh Kumar" placeholderTextColor={Colors.neutral.midGray} autoCapitalize="words" autoFocus />
@@ -135,13 +151,39 @@ export default function FarmersScreen() {
                 <TextInput style={s.input} value={newPhone} onChangeText={setNewPhone} placeholder="10-digit number" placeholderTextColor={Colors.neutral.midGray} keyboardType="phone-pad" maxLength={10} />
               </View>
               <View style={s.field}>
-                <Text style={s.label}>Address (optional)</Text>
-                <TextInput style={[s.input, { height: 80, textAlignVertical: 'top', paddingTop: Spacing.md }]} value={newAddress} onChangeText={setNewAddress} placeholder="Village / Town" placeholderTextColor={Colors.neutral.midGray} multiline />
+                <Text style={s.label}>Aadhaar Number *</Text>
+                <TextInput style={s.input} value={newAadhar} onChangeText={setNewAadhar} placeholder="12-digit Aadhaar" placeholderTextColor={Colors.neutral.midGray} keyboardType="number-pad" maxLength={12} />
               </View>
+
+              <Text style={[s.sectionLabel, { marginTop: Spacing.md }]}>Bank Details (Optional)</Text>
+              <View style={s.field}>
+                <Text style={s.label}>Bank Account Number</Text>
+                <TextInput style={s.input} value={newBankAccount} onChangeText={setNewBankAccount} placeholder="Account number" placeholderTextColor={Colors.neutral.midGray} keyboardType="number-pad" />
+              </View>
+              <View style={s.field}>
+                <Text style={s.label}>Bank Name</Text>
+                <TextInput style={s.input} value={newBankName} onChangeText={setNewBankName} placeholder="e.g. State Bank of India" placeholderTextColor={Colors.neutral.midGray} autoCapitalize="words" />
+              </View>
+              <View style={s.field}>
+                <Text style={s.label}>IFSC Code</Text>
+                <TextInput style={s.input} value={newIfsc} onChangeText={v => setNewIfsc(v.toUpperCase())} placeholder="e.g. SBIN0001234" placeholderTextColor={Colors.neutral.midGray} autoCapitalize="characters" maxLength={11} />
+              </View>
+              <View style={s.field}>
+                <Text style={s.label}>UPI ID</Text>
+                <TextInput style={s.input} value={newUpi} onChangeText={setNewUpi} placeholder="e.g. farmer@upi" placeholderTextColor={Colors.neutral.midGray} autoCapitalize="none" keyboardType="email-address" />
+              </View>
+
+              <Text style={[s.sectionLabel, { marginTop: Spacing.md }]}>Identity (Optional)</Text>
+              <View style={s.field}>
+                <Text style={s.label}>PAN Card Number</Text>
+                <TextInput style={s.input} value={newPan} onChangeText={v => setNewPan(v.toUpperCase())} placeholder="e.g. ABCDE1234F" placeholderTextColor={Colors.neutral.midGray} autoCapitalize="characters" maxLength={10} />
+              </View>
+
               <View style={s.infoCard}>
                 <Text style={s.infoText}>ℹ️ Farmer ID will be auto-generated (e.g. FAR001)</Text>
               </View>
-            </View>
+              <View style={{ height: 40 }} />
+            </ScrollView>
           </KeyboardAvoidingView>
         </SafeAreaView>
       </Modal>
@@ -175,6 +217,7 @@ const s = StyleSheet.create({
   field: { marginBottom: Spacing.lg },
   label: { fontFamily: Typography.fontFamily.medium, fontSize: Typography.size.sm, color: Colors.neutral.darkGray, marginBottom: Spacing.xs },
   input: { backgroundColor: Colors.neutral.offWhite, borderRadius: BorderRadius.md, paddingHorizontal: Spacing.base, paddingVertical: Spacing.md, fontFamily: Typography.fontFamily.regular, fontSize: Typography.size.md, color: Colors.neutral.charcoal, borderWidth: 1, borderColor: Colors.neutral.lightGray },
+  sectionLabel: { fontFamily: Typography.fontFamily.semibold, fontSize: Typography.size.sm, color: Colors.primary.green, marginBottom: Spacing.sm, textTransform: 'uppercase', letterSpacing: 0.5 },
   infoCard: { backgroundColor: Colors.primary.lightGreen, borderRadius: BorderRadius.md, padding: Spacing.md },
   infoText: { fontFamily: Typography.fontFamily.regular, fontSize: Typography.size.sm, color: Colors.primary.darkGreen },
 });

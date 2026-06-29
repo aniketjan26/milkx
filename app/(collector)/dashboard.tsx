@@ -80,7 +80,7 @@ export default function Dashboard() {
                 <Text style={s.statBg}>🥛</Text>
               </View>
             </View>
-            <View style={s.statsRow}>
+            <View style={s.statsRow2}>
               <View style={[s.statSm, { backgroundColor: '#FFF8E1', borderColor: Colors.accent.wheat + '66' }]}>
                 <Text style={s.statSmLabel}>Today's Amount</Text>
                 <Text style={[s.statSmVal, { color: Colors.accent.amber }]}>{formatINR(stats?.todaysAmount ?? 0)}</Text>
@@ -164,7 +164,8 @@ const s = StyleSheet.create({
   greeting: { fontFamily: Typography.fontFamily.semibold, fontSize: Typography.size.lg, color: '#fff' },
   id: { fontFamily: Typography.fontFamily.regular, fontSize: Typography.size.sm, color: 'rgba(255,255,255,0.7)', marginTop: 2 },
   bell: { width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
-  statsRow: { flexDirection: 'row', gap: Spacing.md, marginHorizontal: Spacing.xl, marginTop: -Spacing.lg, marginBottom: Spacing.md },
+  statsRow: { flexDirection: 'row', gap: Spacing.md, marginHorizontal: Spacing.xl, marginTop: Spacing.lg, marginBottom: Spacing.md },
+  statsRow2: { flexDirection: 'row', gap: Spacing.md, marginHorizontal: Spacing.xl, marginTop: 0, marginBottom: Spacing.md },
   stat: { flex: 1, borderRadius: BorderRadius.lg, padding: Spacing.base, minHeight: 90, overflow: 'hidden', ...Shadows.card },
   statLabel: { fontFamily: Typography.fontFamily.regular, fontSize: Typography.size.xs, color: 'rgba(255,255,255,0.8)' },
   statVal: { fontFamily: Typography.fontFamily.heading, fontSize: Typography.size['2xl'], color: '#fff', marginTop: 2 },

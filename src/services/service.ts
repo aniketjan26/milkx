@@ -25,12 +25,11 @@ export async function getFarmerById(farmerId: string) {
 }
 
 export async function addFarmer(data: {
-  name: string; phone: string; collectorId: string;
-  address?: string; bankAccount?: string; ifsc?: string;
-  aadhar?: string; upiId?: string;
+  name: string; phone: string; collectorId: string; aadhar: string;
+  bankAccount?: string; bankName?: string; ifsc?: string;
+  upiId?: string; panCard?: string;
 }) {
   const now = new Date().toISOString();
-  // Generate next farmer ID
   const existing = await db.select().from(farmers).where(eq(farmers.collectorId, data.collectorId));
   const farmerNum = existing.length + 1;
   const farmerId = `FAR${String(farmerNum).padStart(3, '0')}`;
@@ -41,11 +40,12 @@ export async function addFarmer(data: {
     name: data.name.trim(),
     phone: data.phone.trim(),
     collectorId: data.collectorId,
-    address: data.address,
-    bankAccount: data.bankAccount,
-    ifsc: data.ifsc,
-    aadhar: data.aadhar,
-    upiId: data.upiId,
+    aadhar: data.aadhar.trim(),
+    bankAccount: data.bankAccount?.trim(),
+    bankName: data.bankName?.trim(),
+    ifsc: data.ifsc?.trim().toUpperCase(),
+    upiId: data.upiId?.trim(),
+    panCard: data.panCard?.trim().toUpperCase(),
     active: true,
     createdAt: now,
     updatedAt: now,

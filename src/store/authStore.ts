@@ -17,7 +17,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   language: Language;
-  setLanguage: (lang: Language) => void;
+  setLanguage: (lang: Language) => Promise<void>;
   loadSession: () => Promise<void>;
   logout: () => Promise<void>;
   register: (data: {
@@ -50,7 +50,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: true,
   language: 'en',
 
-  setLanguage: (language) => set({ language }),
+  setLanguage: async (language) => {
+    set({ language });
+    // Persist to stored session so it survives app restarts
+    try {
+      const raw = await SecureStore.getItemAsync(SESSION_KEY);
+      if (raw) {
+        const user = JSON.parse(raw);
+        await SecureStore.setItemAsync(SESSION_KEY, JSON.stringify({ ...user, language }));
+        set({ user: { ...get().user!, language } });
+      }
+    } catch {}
+  },
 
   loadSession: async () => {
     try {

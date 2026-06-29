@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../src/constants/theme';
 
@@ -14,8 +15,11 @@ export default function UserTypeScreen() {
   return (
     <SafeAreaView style={s.container}>
       <View style={s.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={s.back}>‹ Back</Text></TouchableOpacity>
-        <Text style={s.title}>Select User Type</Text>
+        <View style={s.logoRow}>
+          <Text style={{ fontSize: 28 }}>🥛</Text>
+          <Text style={s.appName}>MilkX</Text>
+        </View>
+        <Text style={s.title}>Welcome Back</Text>
         <Text style={s.sub}>Choose how you want to continue</Text>
       </View>
       <View style={s.body}>
@@ -36,9 +40,10 @@ export default function UserTypeScreen() {
 
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  header: { backgroundColor: Colors.primary.green, paddingHorizontal: Spacing.xl, paddingTop: Spacing.lg, paddingBottom: Spacing['2xl'], borderBottomLeftRadius: 24, borderBottomRightRadius: 24 },
-  back: { color: 'rgba(255,255,255,0.8)', fontFamily: Typography.fontFamily.medium, fontSize: Typography.size.md, marginBottom: Spacing.md },
-  title: { fontFamily: Typography.fontFamily.heading, fontSize: Typography.size['2xl'], color: '#fff' },
+  header: { backgroundColor: Colors.primary.green, paddingHorizontal: Spacing.xl, paddingTop: Spacing.xl, paddingBottom: Spacing['2xl'], borderBottomLeftRadius: 24, borderBottomRightRadius: 24 },
+  logoRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },
+  appName: { fontFamily: Typography.fontFamily.heading, fontSize: Typography.size['2xl'], color: '#fff' },
+  title: { fontFamily: Typography.fontFamily.heading, fontSize: Typography.size.xl, color: '#fff' },
   sub: { fontFamily: Typography.fontFamily.regular, color: 'rgba(255,255,255,0.75)', fontSize: Typography.size.base, marginTop: 2 },
   body: { padding: Spacing.xl, gap: Spacing.md },
   card: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.neutral.offWhite, borderRadius: BorderRadius.lg, padding: Spacing.base, borderWidth: 1, borderColor: Colors.neutral.lightGray, ...Shadows.card },

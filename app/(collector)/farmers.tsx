@@ -211,7 +211,7 @@ const s = StyleSheet.create({
   addBtnText: { fontFamily: Typography.fontFamily.semibold, color: '#fff', fontSize: Typography.size.md },
   modalHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: Spacing.xl, borderBottomWidth: 1, borderBottomColor: Colors.neutral.lightGray },
   modalTitle: { fontFamily: Typography.fontFamily.semibold, fontSize: Typography.size.lg, color: Colors.neutral.charcoal },
-  modalCancel: { fontFamily: Typography.fontFamily.medium, color: Colors.neutral.gray, fontSize: Typography.size.md },
+  modalCancel: { fontFamily: Typography.fontFamily.medium, color: Colors.semantic.error, fontSize: Typography.size.md },
   modalSave: { fontFamily: Typography.fontFamily.semibold, color: Colors.primary.green, fontSize: Typography.size.md },
   modalForm: { padding: Spacing.xl },
   field: { marginBottom: Spacing.lg },

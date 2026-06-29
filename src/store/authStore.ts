@@ -55,7 +55,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   loadSession: async () => {
     try {
       const raw = await SecureStore.getItemAsync(SESSION_KEY);
-      if (raw) set({ user: JSON.parse(raw), isAuthenticated: true });
+      // Load user data so login screen can pre-fill role, but always require fresh login
+      if (raw) set({ user: JSON.parse(raw), isAuthenticated: false });
     } catch {}
     finally { set({ isLoading: false }); }
   },

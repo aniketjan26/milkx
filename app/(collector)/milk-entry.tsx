@@ -18,8 +18,8 @@ export default function MilkEntry() {
   const [farmer, setFarmer] = useState<Farmer | null>(null);
   const [shift, setShift] = useState<Shift>('morning');
   const [volume, setVolume] = useState('');
-  const [fat, setFat] = useState('');
-  const [snf, setSnf] = useState('');
+  const [fat, setFat] = useState('4.0');
+  const [snf, setSnf] = useState('8.5');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loadingFarmers, setLoadingFarmers] = useState(true);
@@ -45,14 +45,16 @@ export default function MilkEntry() {
     setShift(h < 13 ? 'morning' : 'evening');
   }, []);
 
-  const calc = volume && fat && snf
-    ? calculatePayment({ volume: +volume, fat: +fat, snf: +snf, baseRate: 35, method: 'per_liter' })
+  const effectiveFat = fat || '4.0';
+  const effectiveSnf = snf || '8.5';
+  const calc = volume
+    ? calculatePayment({ volume: +volume, fat: +effectiveFat, snf: +effectiveSnf, baseRate: 35, method: 'per_liter' })
     : null;
 
   async function handleSave() {
     if (!farmer) { Alert.alert('Select Farmer', 'Please select a farmer first'); return; }
-    if (!volume || !fat || !snf) { Alert.alert('Missing Fields', 'Please fill Volume, Fat, and SNF'); return; }
-    const { valid, warnings } = validateMilkQuality(+fat, +snf);
+    if (!volume) { Alert.alert('Missing Fields', 'Please enter the volume'); return; }
+    const { valid, warnings } = validateMilkQuality(+effectiveFat, +effectiveSnf);
     if (!valid) {
       Alert.alert('Quality Warning', warnings.join('\n'), [
         { text: 'Review', style: 'cancel' },
@@ -71,8 +73,8 @@ export default function MilkEntry() {
         date: today,
         shift,
         volume: +volume,
-        fat: +fat,
-        snf: +snf,
+        fat: +effectiveFat,
+        snf: +effectiveSnf,
         ratePerLiter: calc.ratePerLiter,
         totalAmount: calc.totalAmount,
         rateMethod: 'per_liter',
@@ -103,7 +105,7 @@ export default function MilkEntry() {
           <Text style={{ fontFamily: Typography.fontFamily.regular, fontSize: Typography.size.sm, color: Colors.neutral.gray }}>Amount Calculated</Text>
           <Text style={{ fontFamily: Typography.fontFamily.heading, fontSize: Typography.size['2xl'], color: Colors.primary.green }}>{calc ? formatINR(calc.totalAmount) : '—'}</Text>
         </View>
-        <TouchableOpacity onPress={() => { setSaved(false); setVolume(''); setFat(''); setSnf(''); }} style={{ marginBottom: Spacing.md }}>
+        <TouchableOpacity onPress={() => { setSaved(false); setVolume(''); setFat('4.0'); setSnf('8.5'); }} style={{ marginBottom: Spacing.md }}>
           <Text style={{ color: Colors.primary.green, fontFamily: Typography.fontFamily.medium }}>+ Add Another Record</Text>
         </TouchableOpacity>
         <TouchableOpacity style={s.doneBtn} onPress={() => router.back()}>
@@ -167,9 +169,9 @@ export default function MilkEntry() {
           {/* Readings */}
           <View style={s.row}>
             {[
-              { l: 'Volume (L) *', v: volume, sv: setVolume, p: '30.0' },
-              { l: 'Fat (%) *', v: fat, sv: setFat, p: '4.2' },
-              { l: 'SNF (%) *', v: snf, sv: setSnf, p: '8.6' },
+              { l: 'Volume (L) *', v: volume, sv: setVolume, p: '0.0' },
+              { l: 'Fat (%)', v: fat, sv: setFat, p: '4.0' },
+              { l: 'SNF (%)', v: snf, sv: setSnf, p: '8.5' },
             ].map(({ l, v, sv, p }) => (
               <View key={l} style={{ flex: 1 }}>
                 <Text style={s.label}>{l}</Text>

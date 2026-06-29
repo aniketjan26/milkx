@@ -11,7 +11,7 @@ export default function ProfileScreen() {
   async function handleLogout() {
     Alert.alert('Logout', 'Are you sure?', [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Logout', style: 'destructive', onPress: async () => { await logout(); router.replace('/(auth)/language'); } },
+      { text: 'Logout', style: 'destructive', onPress: async () => { await logout(); router.replace('/'); } },
     ]);
   }
 

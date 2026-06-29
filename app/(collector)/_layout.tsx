@@ -6,18 +6,17 @@ function TabIcon({ emoji, label, focused }: { emoji: string; label: string; focu
   return (
     <View style={[ti.wrap, focused && ti.wrapActive]}>
       <Text style={[ti.emoji, focused && ti.emojiActive]}>{emoji}</Text>
-      <Text style={[ti.label, focused && ti.labelActive]}>{label}</Text>
+      {focused && <Text style={ti.label} numberOfLines={1}>{label}</Text>}
     </View>
   );
 }
 
 const ti = StyleSheet.create({
-  wrap: { alignItems: 'center', justifyContent: 'center', paddingTop: 6, paddingHorizontal: 4, paddingBottom: 2, borderRadius: BorderRadius.lg },
-  wrapActive: { },
+  wrap: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, paddingVertical: 4, borderRadius: BorderRadius.lg, minWidth: 52 },
+  wrapActive: { backgroundColor: Colors.primary.lightGreen },
   emoji: { fontSize: 20, opacity: 0.45 },
   emojiActive: { opacity: 1 },
-  label: { fontFamily: Typography.fontFamily.medium, fontSize: 10, color: Colors.neutral.gray, marginTop: 2 },
-  labelActive: { color: Colors.primary.green, fontFamily: Typography.fontFamily.semibold },
+  label: { fontFamily: Typography.fontFamily.semibold, fontSize: 10, color: Colors.primary.green, marginTop: 2 },
 });
 
 export default function CollectorLayout() {
@@ -30,9 +29,9 @@ export default function CollectorLayout() {
           backgroundColor: Colors.neutral.white,
           borderTopWidth: 1,
           borderTopColor: Colors.neutral.lightGray,
-          height: Platform.OS === 'ios' ? 82 : 64,
-          paddingBottom: Platform.OS === 'ios' ? 20 : 6,
-          paddingTop: 4,
+          height: Platform.OS === 'ios' ? 82 : 68,
+          paddingBottom: Platform.OS === 'ios' ? 20 : 8,
+          paddingTop: 6,
           elevation: 12,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: -2 },
